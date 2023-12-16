@@ -1,0 +1,26 @@
+services:
+  tf:
+    image: tf:dev
+    build:
+      context: .
+      args:
+        - IMG=nvcr.io/nvidia/tensorflow:23.11-tf2-py3
+    volumes:
+      - .:/code
+      - ../datasets:/data # Update this to point to where your datasets are located
+    tmpfs:
+      - /fast
+    ipc: host
+    security_opt:
+      - seccomp:unconfined
+    ulimits:
+      memlock: -1
+      stack: 67108864
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [ gpu ]
+    command: bash -c "sleep infinity"

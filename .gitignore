@@ -1,1 +1,3 @@
 *.record
+saved_models/
+training/
